@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+
+cloudflared/*.json
+geohost.db
+
+geohost-app/data/*
+!geohost-app/data/.gitkeep
+
+geohost-frontend/node_modules/
+geohost-frontend/dist/
+geohost-frontend/dist.tar.gz
+
+*.log

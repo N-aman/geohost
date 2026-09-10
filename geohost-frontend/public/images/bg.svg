@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="glowBlue" cx="18%" cy="12%" r="55%">
+      <stop offset="0%" stop-color="#2d7ff9" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#2d7ff9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowGreen" cx="85%" cy="88%" r="50%">
+      <stop offset="0%" stop-color="#41c881" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#41c881" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowAmber" cx="70%" cy="8%" r="30%">
+      <stop offset="0%" stop-color="#f5b942" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#f5b942" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#e7edf5" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="#0b0f14"/>
+  <rect width="1600" height="1000" fill="url(#grid)"/>
+  <rect width="1600" height="1000" fill="url(#glowBlue)"/>
+  <rect width="1600" height="1000" fill="url(#glowGreen)"/>
+  <rect width="1600" height="1000" fill="url(#glowAmber)"/>
+</svg>

@@ -1,0 +1,11 @@
+tunnel: 07568089-e8c4-4044-ba3e-9a4dde83f75f
+credentials-file: /home/ubuntu/.cloudflared/07568089-e8c4-4044-ba3e-9a4dde83f75f.json
+
+ingress:
+  - hostname: geohost.site
+    service: http://localhost:80
+  - hostname: "*.geohost.site"
+    service: http://localhost:80
+  - hostname: test.geohost.site
+    service: http://localhost:80
+  - service: http_status:404

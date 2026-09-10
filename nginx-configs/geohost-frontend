@@ -1,0 +1,99 @@
+server {
+    listen 80;
+    server_name geohost.site;
+
+    root /srv/geohost/frontend;
+    index index.html;
+
+    client_max_body_size 55m;
+
+    # Static assets: serve directly, never fallback to index.html
+    location /assets/ {
+        try_files $uri =404;
+        expires 1y;
+        add_header Cache-Control "public, no-transform";
+    }
+
+    location /images/ {
+        try_files $uri =404;
+        expires 1y;
+        add_header Cache-Control "public, no-transform";
+    }
+
+    # Upload endpoint: POST goes to Go API; GET serves SPA upload page
+    location = /upload {
+        limit_req zone=upload_limit burst=3 nodelay;
+        if ($request_method = POST) {
+            proxy_pass http://127.0.0.1:8080;
+            break;
+        }
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Auth endpoints: POST goes to Go API; GET serves SPA login page
+    location = /login {
+        limit_req zone=login_limit burst=3 nodelay;
+        if ($request_method = POST) {
+            proxy_pass http://127.0.0.1:8080;
+            break;
+        }
+        try_files $uri $uri/ /index.html;
+    }
+
+    location = /admin/login {
+        limit_req zone=login_limit burst=3 nodelay;
+        if ($request_method = POST) {
+            proxy_pass http://127.0.0.1:8080;
+            break;
+        }
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /auth/google {
+        proxy_pass http://127.0.0.1:8080;
+    }
+
+    location = /me {
+        proxy_pass http://127.0.0.1:8080/me;
+    }
+
+    location = /logout {
+        proxy_pass http://127.0.0.1:8080/logout;
+    }
+
+    # User personal projects and analytics
+    location ~ ^/my/(projects|analytics) {
+        proxy_pass http://127.0.0.1:8080;
+    }
+
+    location = /my/projects/visibility {
+        proxy_pass http://127.0.0.1:8080/my/projects/visibility;
+    }
+
+    # Public gallery endpoint
+    location ~ ^/projects/public {
+        proxy_pass http://127.0.0.1:8080;
+    }
+
+    # Admin backend API calls
+    location ~ ^/admin/(projects|approve|reject|files|suspend|unsuspend|delete|preview) {
+        proxy_pass http://127.0.0.1:8080;
+    }
+
+    # Status API for numeric project IDs (/status/123)
+    location ~ ^/status/[0-9]+$ {
+        proxy_pass http://127.0.0.1:8080;
+    }
+
+    # SPA routing: all pages (/upload, /status, /admin, /admin/login, /dashboard, /explore, /analytics)
+    # fall back to index.html for React Router
+    location / {
+        try_files $uri $uri/ /index.html;
+        add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
+    }
+
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+}

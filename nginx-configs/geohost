@@ -1,0 +1,58 @@
+server {
+    listen 80;
+    server_name "~^(?<subdomain>[a-z0-9-]{3,63})\.geohost\.site$";
+
+    client_max_body_size 55m;
+    absolute_redirect off;
+
+    location = /internal/resolve {
+        internal;
+        proxy_pass http://127.0.0.1:8080/resolve;
+        proxy_pass_request_body off;
+        proxy_set_header Content-Length "";
+        proxy_set_header X-Original-Host $subdomain;
+
+        # Forward Cloudflare visitor context to Go analytics engine
+        proxy_set_header CF-Connecting-IP $http_cf_connecting_ip;
+        proxy_set_header CF-IPCountry $http_cf_ipcountry;
+        proxy_set_header X-Original-URI $request_uri;
+        proxy_set_header X-Referer $http_referer;
+        proxy_set_header X-User-Agent $http_user_agent;
+    }
+
+    location / {
+        auth_request /internal/resolve;
+        auth_request_set $project_id $upstream_http_x_project_id;
+
+        root /srv/geohost/data/approved/$project_id;
+        index index.html;
+        try_files $uri $uri/ /index.html =404;
+
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header X-Content-Type-Options "nosniff" always;
+
+        # Enforce security baseline Content-Security-Policy on all user-hosted sites
+        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self'; frame-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self';" always;
+    }
+
+    location /login {
+        limit_req zone=login_limit burst=3 nodelay;
+        proxy_pass http://127.0.0.1:8080/login;
+    }
+    location /logout {
+        proxy_pass http://127.0.0.1:8080/logout;
+    }
+    location /admin/ {
+        proxy_pass http://127.0.0.1:8080/admin/;
+    }
+    location /status/ {
+        proxy_pass http://127.0.0.1:8080/status/;
+    }
+    location /upload {
+        limit_req zone=upload_limit burst=3 nodelay;
+        proxy_pass http://127.0.0.1:8080/upload;
+    }
+    location /admin/files {
+        proxy_pass http://127.0.0.1:8080/admin/files;
+    }
+}

@@ -1,0 +1,18 @@
+[Unit]
+Description=Geohost Go Backend API Service
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/srv/geohost
+Environment="GEOHOST_DATA_DIR=/srv/geohost/data"
+Environment="GEOHOST_DB_PATH=/srv/geohost/data/geohost.db"
+Environment="GEOHOST_LISTEN_ADDR=127.0.0.1:8080"
+Environment="GOOGLE_CLIENT_ID=33288063478-it6kcsiv18vsucb672tdrocbsiakfjm9.apps.googleusercontent.com"
+ExecStart=/srv/geohost/bin/geohost
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

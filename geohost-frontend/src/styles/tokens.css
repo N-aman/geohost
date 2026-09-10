@@ -1,0 +1,89 @@
+:root {
+  /* Warm Mineral Carbon Palette — Industrial Telemetry Foundation */
+  --bg-canvas: #111110;           /* Deep warm mineral ground */
+  --bg-surface-0: #161716;        /* Fixed top bar, status footer */
+  --bg-surface-1: #1c1e1c;        /* Card surface, table rows, panel backgrounds */
+  --bg-surface-2: #242724;        /* Interactive active state, table headers, hover */
+  --bg-surface-elevated: #2d302d; /* Modals, popovers, dropdown flyouts */
+  --bg-surface-subtle: #141514;   /* Inputs, dropzones, code blocks */
+
+  /* Milled Stone 1px Rules & Dividers */
+  --border-subtle: #2b2e2a;       /* Subtle row dividers, quiet card bounds */
+  --border-muted: #383d37;        /* Input borders, section dividing rules */
+  --border-active: #f59e0b;       /* Signal Amber focus & active indicator */
+  --border-strong: #545b52;       /* High-contrast borders */
+
+  /* Dual-Font Typography Stack */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* Warm Bone-White & Mineral Text Hierarchy */
+  --text-primary: #f5f5ee;        /* Primary labels, headings, key values */
+  --text-secondary: #a0a59e;      /* Descriptions, column headers, metadata */
+  --text-tertiary: #6b7169;       /* Inactive tabs, timestamps, helper captions */
+  --text-disabled: #424641;       /* Disabled controls, inert buttons */
+
+  /* Signal Amber — Signature Brand & Action Accent */
+  --accent-primary: #f59e0b;
+  --accent-hover: #e08d07;
+  --accent-subtle: rgba(245, 158, 11, 0.12);
+  --accent-border: rgba(245, 158, 11, 0.35);
+  --accent-contrast: #111110;      /* Dark text on bright amber buttons */
+
+  /* Semantic Operational States */
+  --state-live: #10b981;          /* Radar Emerald: Online, Approved, 100/100 */
+  --state-live-bg: rgba(16, 185, 129, 0.12);
+  --state-live-border: rgba(16, 185, 129, 0.35);
+
+  --state-warning: #f59e0b;       /* Signal Amber: Review Required, Queued */
+  --state-warning-bg: rgba(245, 158, 11, 0.12);
+  --state-warning-border: rgba(245, 158, 11, 0.35);
+
+  --state-danger: #ef4444;        /* Crimson: Malicious, Blocked, Rejected */
+  --state-danger-bg: rgba(239, 68, 68, 0.12);
+  --state-danger-border: rgba(239, 68, 68, 0.35);
+
+  --state-suspended: #787d75;     /* Warm Slate: Suspended, Quarantined */
+  --state-suspended-bg: rgba(120, 125, 117, 0.12);
+  --state-suspended-border: rgba(120, 125, 117, 0.35);
+
+  /* Geometry & Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}
+
+/* Global Reset & Base Setup */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
